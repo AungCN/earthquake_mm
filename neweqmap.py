@@ -73,7 +73,7 @@ def plot_earthquake_map(start_date, end_date):
     folium_static(myanmar_map)
 
 # Streamlit UI
-st.title("Myanmar Earthquake Impact Analysis")
+st.title("Earthquake-Affected Population")
 st.sidebar.header("Filter Earthquake Data")
 start_date = st.sidebar.date_input("Start Date", datetime(2025, 1, 1))
 end_date = st.sidebar.date_input("End Date", datetime.today())

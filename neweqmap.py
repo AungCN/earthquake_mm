@@ -112,7 +112,7 @@ def plot_earthquake_map(df_eq):
 
 
 # 🔹 **Streamlit UI**
-st.title("🌍 Myanmar Earthquake Impact Analysis (USGS API)")
+st.title("🌍 Earthquake-Affected Population")
 st.sidebar.header("📌 Filter Earthquake Data")
 
 # **Set default date range to today**

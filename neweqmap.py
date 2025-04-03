@@ -112,7 +112,7 @@ def plot_earthquake_map(df_eq):
 
 
 # 🔹 **Streamlit UI**
-st.title("🌍 Earthquake-Affected Population")
+st.title("🌍 Earthquake-Affected Population(MM)")
 st.sidebar.header("📌 Filter Earthquake Data")
 
 # **Set default date range to today**

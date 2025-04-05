@@ -87,7 +87,8 @@ def plot_earthquake_map(df_eq):
     # Add Population Heatmap
     heat_data = [[row["lat"], row["lon"], row["hh_total"]] for _, row in df_pop_mm.iterrows()]
     if heat_data:
-        HeatMap(heat_data, min_opacity=0.4, radius=20, blur=10, max_zoom=1).add_to(myanmar_map)
+        HeatMap(heat_data, min_opacity=0.1, radius=10, blur=5, max_zoom=1).add_to(myanmar_map)
+
 
     # Add Earthquake Markers
     for _, row in df_eq.iterrows():

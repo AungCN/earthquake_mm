@@ -152,19 +152,6 @@ else:
 if 'filtered_data' in locals() and filtered_data is not None and not filtered_data.empty:
     st.subheader("📊 Earthquake Data Table")
     st.dataframe(filtered_data[['time', 'latitude', 'longitude', 'mag', 'Estimated_Affected_Pop', 'place', 'updated']])
-
-    # Optional: Interactive row selection
-    st.subheader("📋 Select Earthquake Rows to View")
-    selected_rows = st.data_editor(
-        filtered_data[['time', 'latitude', 'longitude', 'mag', 'Estimated_Affected_Pop', 'place', 'updated']],
-        use_container_width=True,
-        num_rows="dynamic",
-        hide_index=True,
-    )
-
-    if not selected_rows.empty:
-        st.success("✅ You selected rows:")
-        st.write(selected_rows)
 else:
     st.warning("⚠️ No earthquake data available for the selected date range.")
 import streamlit as st

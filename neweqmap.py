@@ -12,7 +12,7 @@ import io
 
 
 # 🔹 **Fetch Earthquake Data from USGS API**
-def fetch_earthquake_data(start_date, end_date, min_magnitude=4.0):
+def fetch_earthquake_data(start_date, end_date, min_magnitude=1):
     url = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 
     params = {

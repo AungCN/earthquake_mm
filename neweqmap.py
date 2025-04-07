@@ -246,7 +246,7 @@ def prepare_forecasting_data(df):
 @st.cache_data
 def load_data():
     # Fetch data from the USGS API (assuming it's already implemented)
-    df = fetch_earthquake_data(pd.to_datetime("2024-01-01"), pd.to_datetime("2024-12-31"))
+    df = fetch_earthquake_data(pd.to_datetime("2024-01-01"), pd.to_datetime("2025-12-31"))
     if df is not None:
         df["time"] = pd.to_datetime(df["time"])
     return df

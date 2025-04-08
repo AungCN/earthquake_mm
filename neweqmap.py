@@ -242,6 +242,7 @@ def prepare_forecasting_data(df):
 
     return df_clean
 
+@st.cache_data
 # 🔹 **Fetch Earthquake Data from USGS API**
 def fetch_earthquake_data_forecast(start_date, end_date, min_magnitude=2.0):
     url = "https://earthquake.usgs.gov/fdsnws/event/1/query"
@@ -276,7 +277,7 @@ if df is not None:
 else:
     st.error("Failed to load earthquake data.")
 
-@st.cache_data
+
 def load_data():
     # Fetch data from the USGS API (assuming it's already implemented)
     df = fetch_earthquake_data_forecast(pd.to_datetime("2024-01-01"), pd.to_datetime("2025-12-31"))

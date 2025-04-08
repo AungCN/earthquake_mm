@@ -252,7 +252,7 @@ def load_data():
     return df
 
 # Streamlit App
-st.title("📊 Earthquake Forecasting Data Preparation")
+st.title("📊 Earthquake Forecasting Data Preparation - Random Forest & LSTM")
 
 df = load_data()
 if df is not None:
@@ -327,6 +327,56 @@ sns.scatterplot(x=y_test["mag"], y=rf_pred_mag, ax=axes[2])
 axes[2].set_xlabel("Actual Magnitude")
 
 st.pyplot(fig)
+
+
+#########################
+#actual Vs. predicted points map
+rf_predictions = pd.DataFrame({
+    "Actual Latitude": y_test["latitude"].values,
+    "Predicted Latitude": rf_pred_lat,
+    "Actual Longitude": y_test["longitude"].values,
+    "Predicted Longitude": rf_pred_long,
+    "Actual Magnitude": y_test["mag"].values,
+    "Predicted Magnitude": rf_pred_mag
+})
+
+import streamlit as st
+#st.set_page_config(layout="wide")  # Should always be at the top
+
+import pandas as pd
+import folium
+from geopy.distance import geodesic
+from streamlit_folium import folium_static
+
+# 🔹 App Title
+st.title("📍 Earthquake Prediction vs Actual Locations - Random Forest")
+
+# 🔹 Calculate geodesic error
+rf_predictions["Error (km)"] = rf_predictions.apply(lambda row: geodesic(
+    (row["Actual Latitude"], row["Actual Longitude"]),
+    (row["Predicted Latitude"], row["Predicted Longitude"])
+).km, axis=1)
+
+# 🔹 Show data table
+st.subheader("📊 Prediction Results with Geodesic Error - Random Forest")
+st.dataframe(rf_predictions)
+
+# 🔹 Initialize map
+map_pred = folium.Map(location=[21.0, 96.0], zoom_start=6, tiles="CartoDB positron")
+
+# 🔹 Add markers and lines
+for idx, row in rf_predictions.iterrows():
+    actual = (row["Actual Latitude"], row["Actual Longitude"])
+    predicted = (row["Predicted Latitude"], row["Predicted Longitude"])
+    error_km = row["Error (km)"]
+
+    folium.Marker(actual, tooltip=f"Actual #{idx+1}", icon=folium.Icon(color="green")).add_to(map_pred)
+    folium.Marker(predicted, tooltip=f"Predicted #{idx+1} (Error: {error_km:.2f} km)", icon=folium.Icon(color="red")).add_to(map_pred)
+    folium.PolyLine([actual, predicted], color="orange", weight=2, tooltip=f"{error_km:.2f} km").add_to(map_pred)
+
+# 🔹 Display map
+st.subheader("🗺️ Prediction vs Actual Location Map")
+folium_static(map_pred)
 
 #########################
 

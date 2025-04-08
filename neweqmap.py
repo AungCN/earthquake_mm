@@ -244,7 +244,7 @@ def prepare_forecasting_data(df):
 
 @st.cache_data
 # 🔹 **Fetch Earthquake Data from USGS API**
-def fetch_earthquake_data_forecast(start_date, end_date, min_magnitude=2.0):
+def fetch_earthquake_data_forecast(start_date, end_date, min_magnitude=3.5):
     url = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 
     params = {

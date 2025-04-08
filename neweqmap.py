@@ -270,14 +270,6 @@ def fetch_earthquake_data_forecast(start_date, end_date, min_magnitude=2.0):
         st.error(f"❌ Error fetching data: {e}")
         return None
 
-
-df = load_data()
-if df is not None:
-    df_clean = prepare_forecasting_data(df)
-else:
-    st.error("Failed to load earthquake data.")
-
-
 def load_data():
     # Fetch data from the USGS API (assuming it's already implemented)
     df = fetch_earthquake_data_forecast(pd.to_datetime("2024-01-01"), pd.to_datetime("2025-12-31"))
@@ -287,6 +279,12 @@ def load_data():
 
 # Streamlit App
 st.title("📊 Earthquake Forecasting Data Preparation - Random Forest & LSTM")
+df = load_data()
+if df is not None:
+    df_clean = prepare_forecasting_data(df)
+else:
+    st.error("Failed to load earthquake data.")
+
 
 ##########################################
 

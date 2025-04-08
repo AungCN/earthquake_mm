@@ -242,23 +242,50 @@ def prepare_forecasting_data(df):
 
     return df_clean
 
-# Load earthquake data (assumed to be fetched from USGS)
-@st.cache_data
-def load_data():
-    # Fetch data from the USGS API (assuming it's already implemented)
-    df = fetch_earthquake_data(pd.to_datetime("2024-01-01"), pd.to_datetime("2025-12-31"))
-    if df is not None:
-        df["time"] = pd.to_datetime(df["time"])
-    return df
+# 🔹 **Fetch Earthquake Data from USGS API**
+def fetch_earthquake_data_forecast(start_date, end_date, min_magnitude=2.0):
+    url = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 
-# Streamlit App
-st.title("📊 Earthquake Forecasting Data Preparation - Random Forest & LSTM")
+    params = {
+        "format": "csv",
+        "starttime": start_date.strftime("%Y-%m-%d"),
+        "endtime": end_date.strftime("%Y-%m-%d"),
+        "minmagnitude": min_magnitude,
+        "maxmagnitude": 10.0,
+        "orderby": "time",
+    }
+
+    st.info(f"Fetching earthquake data from {start_date} to {end_date}...")
+
+    try:
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            df = pd.read_csv(io.StringIO(response.text))
+            return df
+        else:
+            st.error(f"❌ Failed to fetch data: {response.status_code}")
+            return None
+    except Exception as e:
+        st.error(f"❌ Error fetching data: {e}")
+        return None
+
 
 df = load_data()
 if df is not None:
     df_clean = prepare_forecasting_data(df)
 else:
     st.error("Failed to load earthquake data.")
+
+@st.cache_data
+def load_data():
+    # Fetch data from the USGS API (assuming it's already implemented)
+    df = fetch_earthquake_data_forecast(pd.to_datetime("2024-01-01"), pd.to_datetime("2025-12-31"))
+    if df is not None:
+        df["time"] = pd.to_datetime(df["time"])
+    return df
+
+# Streamlit App
+st.title("📊 Earthquake Forecasting Data Preparation - Random Forest & LSTM")
 
 ##########################################
 

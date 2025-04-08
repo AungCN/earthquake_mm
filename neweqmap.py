@@ -279,11 +279,12 @@ def load_data():
 
 # Streamlit App
 st.title("📊 Earthquake Forecasting Data Preparation - Random Forest & LSTM")
-df = load_data()
-if df is not None:
-    df_clean = prepare_forecasting_data(df)
-else:
-    st.error("Failed to load earthquake data.")
+
+#df = load_data()
+#if df is not None:
+ #   df_clean = prepare_forecasting_data(df)
+#else:
+ #   st.error("Failed to load earthquake data.")
 
 
 ##########################################
